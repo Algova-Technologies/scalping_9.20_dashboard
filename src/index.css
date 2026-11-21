@@ -1,0 +1,81 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  /* one-shot animations, replayed by re-keying the element on each data refresh */
+  --animate-turn: turn 0.6s ease-out;
+  --animate-blink: blink 1s ease-out;
+  @keyframes turn {
+    to { transform: rotate(360deg); }
+  }
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.2; }
+  }
+}
+
+body {
+  @apply bg-white text-zinc-900 antialiased;
+}
+
+/* Dark mode: remap the palette instead of per-element dark: classes, so every screen follows.
+   Dark teal (Solarized-style) — the darkest surface is #002b36, never black. */
+html.dark {
+  color-scheme: dark;
+  --color-black: #00202b;
+  --color-white: #003644;
+  --color-zinc-50: #002b36;
+  --color-zinc-100: #0b4250;
+  --color-zinc-200: #164d5b;
+  --color-zinc-300: #2a6170;
+  --color-zinc-400: #58818a;
+  --color-zinc-500: #7f9ea4;
+  --color-zinc-600: #9db5b8;
+  --color-zinc-700: #bccbcc;
+  --color-zinc-800: #d6dfdf;
+  --color-zinc-900: #e8eeec;
+  --color-red-50: color-mix(in oklab, --theme(--color-red-500 inline) 16%, #003644);
+  --color-red-100: color-mix(in oklab, --theme(--color-red-500 inline) 28%, #003644);
+  --color-red-600: --theme(--color-red-400 inline);
+  --color-red-700: --theme(--color-red-300 inline);
+  --color-emerald-50: color-mix(in oklab, --theme(--color-emerald-500 inline) 16%, #003644);
+  --color-emerald-100: color-mix(in oklab, --theme(--color-emerald-500 inline) 28%, #003644);
+  --color-emerald-600: --theme(--color-emerald-400 inline);
+  --color-emerald-700: --theme(--color-emerald-300 inline);
+  --color-blue-50: color-mix(in oklab, --theme(--color-blue-500 inline) 16%, #003644);
+  --color-blue-100: color-mix(in oklab, --theme(--color-blue-500 inline) 28%, #003644);
+  --color-blue-600: --theme(--color-blue-400 inline);
+  --color-blue-700: --theme(--color-blue-300 inline);
+  --color-indigo-50: color-mix(in oklab, --theme(--color-indigo-500 inline) 16%, #003644);
+  --color-indigo-100: color-mix(in oklab, --theme(--color-indigo-500 inline) 28%, #003644);
+  --color-indigo-600: --theme(--color-indigo-400 inline);
+  --color-indigo-700: --theme(--color-indigo-300 inline);
+  --color-orange-50: color-mix(in oklab, --theme(--color-orange-500 inline) 16%, #003644);
+  --color-orange-100: color-mix(in oklab, --theme(--color-orange-500 inline) 28%, #003644);
+  --color-orange-600: --theme(--color-orange-400 inline);
+  --color-orange-700: --theme(--color-orange-300 inline);
+  --color-fuchsia-50: color-mix(in oklab, --theme(--color-fuchsia-500 inline) 16%, #003644);
+  --color-fuchsia-100: color-mix(in oklab, --theme(--color-fuchsia-500 inline) 28%, #003644);
+  --color-fuchsia-600: --theme(--color-fuchsia-400 inline);
+  --color-fuchsia-700: --theme(--color-fuchsia-300 inline);
+  --color-violet-50: color-mix(in oklab, --theme(--color-violet-500 inline) 16%, #003644);
+  --color-violet-100: color-mix(in oklab, --theme(--color-violet-500 inline) 28%, #003644);
+  --color-violet-600: --theme(--color-violet-400 inline);
+  --color-violet-700: --theme(--color-violet-300 inline);
+  --color-rose-50: color-mix(in oklab, --theme(--color-rose-500 inline) 16%, #003644);
+  --color-rose-100: color-mix(in oklab, --theme(--color-rose-500 inline) 28%, #003644);
+  --color-rose-600: --theme(--color-rose-400 inline);
+  --color-rose-700: --theme(--color-rose-300 inline);
+  --color-lime-50: color-mix(in oklab, --theme(--color-lime-500 inline) 16%, #003644);
+  --color-lime-100: color-mix(in oklab, --theme(--color-lime-500 inline) 28%, #003644);
+  --color-lime-600: --theme(--color-lime-400 inline);
+  --color-lime-700: --theme(--color-lime-300 inline);
+  --color-cyan-50: color-mix(in oklab, --theme(--color-cyan-500 inline) 16%, #003644);
+  --color-cyan-100: color-mix(in oklab, --theme(--color-cyan-500 inline) 28%, #003644);
+  --color-cyan-600: --theme(--color-cyan-400 inline);
+  --color-cyan-700: --theme(--color-cyan-300 inline);
+  --color-amber-50: color-mix(in oklab, --theme(--color-amber-500 inline) 16%, #003644);
+  --color-amber-100: color-mix(in oklab, --theme(--color-amber-500 inline) 28%, #003644);
+  --color-amber-600: --theme(--color-amber-400 inline);
+  --color-amber-700: --theme(--color-amber-300 inline);
+}

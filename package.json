@@ -1,0 +1,29 @@
+{
+  "name": "scalping-dashboard",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "lint": "oxlint src",
+    "test": "rolldown src/api.test.ts --platform node -o node_modules/.cache/api.test.mjs --format esm && node node_modules/.cache/api.test.mjs && rolldown src/userForm.test.ts --platform node -o node_modules/.cache/userForm.test.mjs --format esm && node node_modules/.cache/userForm.test.mjs && rolldown src/settingsForm.test.ts --platform node -o node_modules/.cache/settingsForm.test.mjs --format esm && node node_modules/.cache/settingsForm.test.mjs && rolldown src/variantForm.test.ts --platform node -o node_modules/.cache/variantForm.test.mjs --format esm && node node_modules/.cache/variantForm.test.mjs && rolldown src/logs.test.ts --platform node -o node_modules/.cache/logs.test.mjs --format esm && node node_modules/.cache/logs.test.mjs && rolldown src/metrics.test.ts --platform node -o node_modules/.cache/metrics.test.mjs --format esm && node node_modules/.cache/metrics.test.mjs && rolldown src/apps.test.ts --platform node -o node_modules/.cache/apps.test.mjs --format esm && node node_modules/.cache/apps.test.mjs && rolldown src/apps/strategy-paper/userForm.test.ts --platform node -o node_modules/.cache/paper-userForm.test.mjs --format esm && node node_modules/.cache/paper-userForm.test.mjs"
+  },
+  "dependencies": {
+    "@tanstack/react-query": "5.107.1",
+    "lucide-react": "1.72.0",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "react-router": "8.5.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "4.3.5",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@vitejs/plugin-react": "6.3.0",
+    "oxlint": "1.93.0",
+    "tailwindcss": "4.3.5",
+    "typescript": "7.0.2",
+    "vite": "8.3.8"
+  }
+}
