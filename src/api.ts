@@ -1,5 +1,5 @@
-// All backend calls go through here. Relative URLs: Vite proxies /api in dev.
-const BASE = import.meta.env?.VITE_API_BASE_URL ?? '';
+// All backend calls go through here.
+const BASE = (import.meta.env?.VITE_API_BASE_URL ?? 'http://192.46.209.8:8006').replace(/\/+(docs)?\/?$/, '');
 
 // Every screen of every project refreshes its data this often (main.tsx sets it as the default).
 export const LIVE_MS = 1000;
