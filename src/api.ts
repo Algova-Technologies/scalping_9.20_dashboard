@@ -1,5 +1,8 @@
-// All backend calls go through here. Relative URLs: Vite proxies /api in dev.
-const BASE = import.meta.env?.VITE_API_BASE_URL ?? '';
+// All backend calls go through here.
+// In dev: Vite proxies /api in dev (see vite.config.ts).
+// In prod: Netlify rewrites proxy /api in netlify.toml and public/_redirects.
+// Optional env override: VITE_DASHBOARD_API_URL or VITE_API_BASE_URL.
+const BASE = import.meta.env?.VITE_DASHBOARD_API_URL || import.meta.env?.VITE_API_BASE_URL || '';
 
 // Every screen of every project refreshes its data this often (main.tsx sets it as the default).
 export const LIVE_MS = 1000;

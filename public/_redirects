@@ -1,0 +1,19 @@
+# Multi-Variant Dashboard API (Default /api/projects, /api/databases, /api/health)
+/api/databases             https://172.105.55.70/scalping_dashboard_api/api/databases  200!
+/api/projects/*            https://172.105.55.70/scalping_dashboard_api/api/projects/:splat  200!
+/api/health                https://172.105.55.70/scalping_dashboard_api/api/health  200!
+
+# Old Version Backend (No Delta)
+/api/strategy-ui/*         https://172.105.55.70/scalping_old_api/api/:splat  200!
+/api/scalping_old/*        https://172.105.55.70/scalping_old_api/api/:splat  200!
+
+# Paper Version Backend (With Delta)
+/api/strategy-paper/*      https://172.105.55.70/scalping_paper_api/api/:splat  200!
+/api/strategy-live/*       https://172.105.55.70/scalping_paper_api/api/:splat  200!
+/api/scalping_paper/*      https://172.105.55.70/scalping_paper_api/api/:splat  200!
+
+# Fallback for other /api requests -> Multi-Variant Backend
+/api/*                     https://172.105.55.70/scalping_dashboard_api/api/:splat  200!
+
+# SPA Fallback for React Router (Must be at the end)
+/*                         /index.html                                          200
