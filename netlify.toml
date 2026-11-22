@@ -4,8 +4,20 @@
 
 # 1. Multi-Variant Backend
 [[redirects]]
+  from = "/api/health"
+  to = "https://172.105.55.70/scalping_dashboard_api/api/health"
+  status = 200
+  force = true
+
+[[redirects]]
   from = "/api/databases"
   to = "https://172.105.55.70/scalping_dashboard_api/api/databases"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/api/projects"
+  to = "https://172.105.55.70/scalping_dashboard_api/api/projects"
   status = 200
   force = true
 
@@ -15,16 +27,22 @@
   status = 200
   force = true
 
+# 2. Old Version Backend (No Delta)
 [[redirects]]
-  from = "/api/health"
-  to = "https://172.105.55.70/scalping_dashboard_api/api/health"
+  from = "/api/strategy-ui"
+  to = "https://172.105.55.70/scalping_old_api/api"
   status = 200
   force = true
 
-# 2. Old Version Backend (No Delta)
 [[redirects]]
   from = "/api/strategy-ui/*"
   to = "https://172.105.55.70/scalping_old_api/api/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/api/scalping_old"
+  to = "https://172.105.55.70/scalping_old_api/api"
   status = 200
   force = true
 
@@ -36,14 +54,32 @@
 
 # 3. Paper Version Backend (With Delta)
 [[redirects]]
+  from = "/api/strategy-paper"
+  to = "https://172.105.55.70/scalping_paper_api/api"
+  status = 200
+  force = true
+
+[[redirects]]
   from = "/api/strategy-paper/*"
   to = "https://172.105.55.70/scalping_paper_api/api/:splat"
   status = 200
   force = true
 
 [[redirects]]
+  from = "/api/strategy-live"
+  to = "https://172.105.55.70/scalping_paper_api/api"
+  status = 200
+  force = true
+
+[[redirects]]
   from = "/api/strategy-live/*"
   to = "https://172.105.55.70/scalping_paper_api/api/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/api/scalping_paper"
+  to = "https://172.105.55.70/scalping_paper_api/api"
   status = 200
   force = true
 
