@@ -1,3 +1,12 @@
+# Specific endpoints for Strategy Paper & Strategy Live (Users and Logs)
+/api/strategy-live/users   https://172.105.55.70/scalping_dashboard_api/api/projects/SENSEX@scalping_9.20_with_delta_multi_variant_live/get_users  200!
+/api/strategy-paper/users  https://172.105.55.70/scalping_dashboard_api/api/projects/NIFTY50@scalping_9.20_with_delta_multi_variant_dryrun/get_users  200!
+/api/strategy-live/logs/dates https://172.105.55.70/scalping_old_api/api/log-files/dates  200!
+/api/strategy-paper/logs/dates https://172.105.55.70/scalping_old_api/api/log-files/dates  200!
+/api/strategy-live/logs    https://172.105.55.70/scalping_old_api/api/log-files  200!
+/api/strategy-paper/logs   https://172.105.55.70/scalping_old_api/api/log-files  200!
+/api/strategy-ui/db/*/users https://172.105.55.70/scalping_dashboard_api/api/projects/BANKNIFTY@scalping_9.20_no_delta_multi_variant_dryrun/get_users  200!
+
 # Multi-Variant Dashboard API (Exact matches & wildcards)
 /api/health                https://172.105.55.70/scalping_dashboard_api/api/health  200!
 /api/databases             https://172.105.55.70/scalping_dashboard_api/api/databases  200!

@@ -48,7 +48,21 @@ export const userLabel = (app: WithDeltaApp) => (u: User) => `${u.full_name} (${
 
 export const useUsers = () => {
   const app = useApp();
-  return useQuery({ queryKey: [app.api, 'users'], queryFn: () => papi<User[]>(app, 'users') });
+  return useQuery({
+    queryKey: [app.api, 'users'],
+    queryFn: async () => {
+      const data = await papi<User[]>(app, 'users');
+      return (data || []).map((u: any) => ({
+        ...u,
+        trade_role: u.trade_role ?? (u.role?.toLowerCase() === 'admin' ? 'master' : 'user'),
+        broker_name: u.broker_name ?? u.broker ?? 'Angel One',
+        has_credentials: u.has_credentials ?? !!(u.api_key && u.client_id),
+        account_status: u.account_status ?? (u.is_active ? 1 : 0),
+        trade_status: u.trade_status ?? 1,
+        broker_connection_status: u.broker_connection_status ?? 1,
+      }));
+    },
+  });
 };
 
 /** ?user=&date= every screen carries; user defaults to the master (else the first user), date to today. */

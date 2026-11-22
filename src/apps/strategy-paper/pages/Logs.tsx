@@ -81,7 +81,8 @@ export function Component() {
   // An unknown category goes back to the dashboard; if there are no log tables at all, say why below instead.
   if (dates.data?.categories.length && !dates.data.categories.includes(category)) return <Navigate replace to={ROOT} />;
   const d = logs.data;
-  const last = d ? Math.max(1, Math.ceil(d.total / size)) : 1;
+  const total = (d as any)?.total ?? (d as any)?.total_count ?? 0;
+  const last = d ? Math.max(1, Math.ceil(total / size)) : 1;
   const title = `${logTitle(category)} Logs`;
   const counts = d?.level_counts ?? {};
 

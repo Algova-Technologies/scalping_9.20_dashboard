@@ -2,6 +2,43 @@
   publish = "dist"
   command = "npm run build"
 
+# Specific endpoints for Strategy Paper & Strategy Live (Users and Logs)
+[[redirects]]
+  from = "/api/strategy-live/users"
+  to = "https://172.105.55.70/scalping_dashboard_api/api/projects/SENSEX@scalping_9.20_with_delta_multi_variant_live/get_users"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/api/strategy-paper/users"
+  to = "https://172.105.55.70/scalping_dashboard_api/api/projects/NIFTY50@scalping_9.20_with_delta_multi_variant_dryrun/get_users"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/api/strategy-live/logs/dates"
+  to = "https://172.105.55.70/scalping_old_api/api/log-files/dates"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/api/strategy-paper/logs/dates"
+  to = "https://172.105.55.70/scalping_old_api/api/log-files/dates"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/api/strategy-live/logs"
+  to = "https://172.105.55.70/scalping_old_api/api/log-files"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/api/strategy-paper/logs"
+  to = "https://172.105.55.70/scalping_old_api/api/log-files"
+  status = 200
+  force = true
+
 # 1. Multi-Variant Backend
 [[redirects]]
   from = "/api/health"
