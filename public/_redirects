@@ -5,7 +5,13 @@
 /api/strategy-paper/logs/dates https://172.105.55.70/scalping_old_api/api/log-files/dates  200!
 /api/strategy-live/logs    https://172.105.55.70/scalping_old_api/api/log-files  200!
 /api/strategy-paper/logs   https://172.105.55.70/scalping_old_api/api/log-files  200!
-/api/strategy-ui/db/*/users https://172.105.55.70/scalping_dashboard_api/api/projects/BANKNIFTY@scalping_9.20_no_delta_multi_variant_dryrun/get_users  200!
+
+# Strategy UI endpoints (database scoped)
+/api/strategy-ui/db/*/logs    https://172.105.55.70/scalping_dashboard_api/api/projects/BANKNIFTY@scalping_9.20_no_delta_multi_variant_dryrun/logs  200!
+/api/strategy-ui/db/*/users   https://172.105.55.70/scalping_dashboard_api/api/projects/BANKNIFTY@scalping_9.20_no_delta_multi_variant_dryrun/get_users  200!
+/api/strategy-ui/db/*/settings https://172.105.55.70/scalping_dashboard_api/api/projects/BANKNIFTY@scalping_9.20_no_delta_multi_variant_dryrun/get_settings  200!
+/api/strategy-ui/db/*/trades  https://172.105.55.70/scalping_dashboard_api/api/projects/BANKNIFTY@scalping_9.20_no_delta_multi_variant_dryrun/trades  200!
+/api/strategy-ui/db/*/positions https://172.105.55.70/scalping_dashboard_api/api/projects/BANKNIFTY@scalping_9.20_no_delta_multi_variant_dryrun/positions  200!
 
 # Multi-Variant Dashboard API (Exact matches & wildcards)
 /api/health                https://172.105.55.70/scalping_dashboard_api/api/health  200!

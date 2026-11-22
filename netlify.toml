@@ -39,6 +39,37 @@
   status = 200
   force = true
 
+# Strategy UI endpoints (database scoped)
+[[redirects]]
+  from = "/api/strategy-ui/db/*/logs"
+  to = "https://172.105.55.70/scalping_dashboard_api/api/projects/BANKNIFTY@scalping_9.20_no_delta_multi_variant_dryrun/logs"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/api/strategy-ui/db/*/users"
+  to = "https://172.105.55.70/scalping_dashboard_api/api/projects/BANKNIFTY@scalping_9.20_no_delta_multi_variant_dryrun/get_users"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/api/strategy-ui/db/*/settings"
+  to = "https://172.105.55.70/scalping_dashboard_api/api/projects/BANKNIFTY@scalping_9.20_no_delta_multi_variant_dryrun/get_settings"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/api/strategy-ui/db/*/trades"
+  to = "https://172.105.55.70/scalping_dashboard_api/api/projects/BANKNIFTY@scalping_9.20_no_delta_multi_variant_dryrun/trades"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/api/strategy-ui/db/*/positions"
+  to = "https://172.105.55.70/scalping_dashboard_api/api/projects/BANKNIFTY@scalping_9.20_no_delta_multi_variant_dryrun/positions"
+  status = 200
+  force = true
+
 # 1. Multi-Variant Backend
 [[redirects]]
   from = "/api/health"

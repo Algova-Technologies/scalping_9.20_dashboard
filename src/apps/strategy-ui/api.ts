@@ -33,7 +33,13 @@ export const useUsers = (db: string) => useQuery({ queryKey: ['su', 'users', db]
 /** The users columns only newer engine databases have; screens hide the ones this database lacks. */
 export type UserField = 'broker' | 'trade_status' | 'buying_power';
 export const useUserFields = (db: string) =>
-  useQuery({ queryKey: ['su', 'user-fields', db], queryFn: () => sapi<{ fields: UserField[] }>(db, 'user-fields'), staleTime: Infinity, refetchInterval: false, select: (d) => d.fields });
+  useQuery({
+    queryKey: ['su', 'user-fields', db],
+    queryFn: () => sapi<{ fields: UserField[] }>(db, 'user-fields').catch(() => ({ fields: ['broker', 'trade_status', 'buying_power'] as UserField[] })),
+    staleTime: Infinity,
+    refetchInterval: false,
+    select: (d) => d.fields,
+  });
 
 
 /** The database plus the ?user=&date= every screen carries; user defaults to the admin, date to today. */
