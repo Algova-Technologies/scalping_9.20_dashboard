@@ -3,8 +3,8 @@ import { LogIn, Trash2, User } from 'lucide-react';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router';
 import { card, ConfirmDelete, Crumbs } from '@/shared';
-import { bapi, inr, json, useApp } from '../../api';
-import { BROKERS, brokerById, PORTAL_USER, type ResultsState } from '../../brokers';
+import { bapi, inr, json, useApp } from './api';
+import { BROKERS, brokerById, PORTAL_USER, type ResultsState } from './brokers';
 
 type Saved = {
   saved_account_id: number; broker_type: string; broker_user_id: string; full_name: string; email: string; phone: string;

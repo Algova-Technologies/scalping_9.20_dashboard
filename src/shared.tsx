@@ -13,7 +13,7 @@ export const dbApi = <T,>(db: string, path: string, init?: RequestInit) =>
 // Every project screen's root: Dashboard › <DB kind · name> (dashboard filtered to it) › project.
 export const projectTrail = (p: { id: string; name: string; database: string }, current = false) => [
   { label: scalpingFor(p.database).name, to: scalpingFor(p.database).root },
-  { label: `${isDryrun(p.database) ? 'Dry run' : 'Live'} · ${dbShort(p.database)}`, to: `${scalpingFor(p.database).root}?db=${encodeURIComponent(p.database)}` },
+  { label: `${isDryrun(p.database) ? 'Dry run' : 'Engine'} · ${dbShort(p.database)}`, to: `${scalpingFor(p.database).root}?db=${encodeURIComponent(p.database)}` },
   current ? { label: p.name } : { label: p.name, to: `${projectUrl(p.id)}` },
 ];
 

@@ -50,9 +50,10 @@ export function Component() {
     ['API Key', <span className="font-mono break-all">{u.api_key}</span>],
     ['TOTP Token', <span className="font-mono break-all">{u.qr_totp_token}</span>],
     ['Buying Power', u.buying_power && u.buying_power !== '0' ? Number(u.buying_power).toLocaleString('en-IN') : '—'],
-    ['Status', <Badge on={u.is_active} />],
-    ['Account Status', <Badge on={u.account_status} />],
-    ['Trade Status', <Badge on={u.trade_status} />],
+    // a flag this project's engine lacks (null) gets no row
+    ...([['Status', u.is_active], ['Account Status', u.account_status], ['Trade Status', u.trade_status]] as const)
+      .filter(([, v]) => v !== null)
+      .map(([label, v]): [string, React.ReactNode] => [label, <Badge on={v!} />]),
   ];
 
   return (

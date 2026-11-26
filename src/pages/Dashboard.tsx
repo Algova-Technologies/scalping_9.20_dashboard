@@ -85,12 +85,11 @@ function ProjectCard({ p, color }: { p: Project; color: DbColor }) {
 export function Component() {
   // every user; per-project user filters apply inside a project. Live every second, like every screen.
   // ?db=<name> in the URL keeps the choice across reloads and links; ?db=all = All; absent = the first live database.
-  // This app's family only (e.g. no_delta_multi_variant live + dry run); All = both of them.
+  // This app's databases only (its Go project's database + its dry-run copy); All = both of them.
   const app = appOf(useLocation().pathname);
-  const family = 'family' in app ? app.family : '';
   const [params, setParams] = useSearchParams();
-  const databases = useDatabases();
-  const all = (databases.data ?? []).filter((d) => d.includes(family));
+  const databases = useDatabases(app.engine);
+  const all = databases.data ?? [];
   const asked = params.get('db');
   const picked = asked === 'all' || (asked && all.includes(asked)) ? asked : all.find((d) => !isDryrun(d)) ?? all[0];
   const database = picked === 'all' ? undefined : picked;
@@ -103,9 +102,9 @@ export function Component() {
   };
   const projects = useProjects(undefined, resolved, undefined, database);
   const { isPending, error, isFetching, dataUpdatedAt, refetch } = projects;
-  const data = projects.data?.filter((p) => p.database.includes(family)); // All fetches every database: keep this family's
-  // Live first, then dry run; empty groups hidden. The group label says which, so tabs drop the suffix.
-  const groups = ([['Live', all.filter((d) => !isDryrun(d))], ['Dry run', all.filter(isDryrun)]] as const).filter(([, ds]) => ds.length);
+  const data = projects.data?.filter((p) => all.includes(p.database)); // All fetches every database: keep this app's
+  // The engine's own database first, then its dry run; empty groups hidden. The group label says which.
+  const groups = ([['Engine', all.filter((d) => !isDryrun(d))], ['Dry run', all.filter(isDryrun)]] as const).filter(([, ds]) => ds.length);
   const tab = (d: string | undefined) => {
     const on = d === database;
     return (
@@ -113,7 +112,7 @@ export function Component() {
         key={d ?? ''}
         role="radio"
         aria-checked={on}
-        title={d ?? `Every ${family} database`}
+        title={d ?? `Every ${app.label} database`}
         onClick={() => setParams({ db: d ?? 'all' })}
         className={`inline-flex h-7 items-center gap-2 rounded-md border px-2.5 text-sm whitespace-nowrap transition ${
           on ? `${d ? colorOf(d).chip : 'border-zinc-300 bg-white'} font-medium text-zinc-900 shadow-xs` : 'border-transparent text-zinc-600 hover:bg-white hover:text-zinc-900'

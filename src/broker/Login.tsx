@@ -3,8 +3,8 @@ import { AlertCircle, Eye, EyeOff, HelpCircle, Loader, RefreshCw, Shield, Users 
 import { type ChangeEvent, type ReactNode, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import { card, Crumbs, Notice } from '@/shared';
-import { bapi, json, useApp } from '../../api';
-import { brokerById, type ResultsState } from '../../brokers';
+import { bapi, json, useApp } from './api';
+import { brokerById, type ResultsState } from './brokers';
 
 type Stored = { user_id: string; client_id: string; full_name: string | null; email: string | null; account_status: string | null; available_balance: number | null };
 type LoginRes = { success: boolean; message: string; session_token?: string; user_id?: string; broker_type?: string; requires_oauth2?: boolean; auth_url?: string };
@@ -79,9 +79,10 @@ export function Component() {
   };
   const secretInput = (k: 'password' | 'totp', extra?: ReactNode) => (
     <div className="relative">
-      <input type={show[k] ? 'text' : 'password'} required value={form[k]} onChange={set(k)} placeholder={b.fields[k]!.placeholder} autoComplete="off" className={`${input} pr-10`} />
+      {/* pr-16 when a second icon button (Generate TOTP) sits beside the eye, so typed text never runs under either */}
+      <input type={show[k] ? 'text' : 'password'} required value={form[k]} onChange={set(k)} placeholder={b.fields[k]!.placeholder} autoComplete="off" className={`${input} ${extra ? 'pr-16' : 'pr-10'}`} />
       {extra}
-      <button type="button" onClick={() => setShow({ ...show, [k]: !show[k] })} aria-label={show[k] ? 'Hide' : 'Show'} className="absolute inset-y-0 right-0 flex w-10 items-center justify-center text-zinc-400">
+      <button type="button" onClick={() => setShow({ ...show, [k]: !show[k] })} aria-label={`${show[k] ? 'Hide' : 'Show'} ${k === 'totp' ? 'TOTP' : 'password'}`} className="absolute inset-y-0 right-0 flex w-10 items-center justify-center text-zinc-400">
         {show[k] ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
       </button>
     </div>

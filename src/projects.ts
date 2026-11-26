@@ -27,6 +27,7 @@ export type Project = {
   today_pct: number;
   session_date: string; // YYYY-MM-DD the today_* numbers cover: today, or the last trading day before it
   variants: VariantToday[];
+  single: boolean; // a single-variant engine: one fixed variant (its SL/TP settings), so no variant management
 };
 
 // "Today", or the session's date ("16 Nov") while today has no trades yet and the numbers are from an earlier day.
@@ -59,10 +60,12 @@ export const useProjects = (user?: number, enabled = true, only?: string, databa
 
 export const isDryrun = (d: string) => /dry_?run/i.test(d);
 // Dashboard tab name: the Live / Dry run group carries the suffix.
-export const dbShort = (d: string) => d.replace(/^scalping_/, '').replace(/_(live|dry_?run)$/i, '');
+// Only the dry-run suffix goes (the group label says it): scalping_9.20_no_delta_live and its _dryrun copy both read 9.20_no_delta_live.
+export const dbShort = (d: string) => d.replace(/^scalping_/, '').replace(/_dry_?run$/i, '');
 
-// Engine databases the dashboard can filter on (live; new ones appear on refetch).
-export const useDatabases = () => useQuery({ queryKey: ['databases'], queryFn: () => api<string[]>('/api/databases') });
+// One app's engine databases (its Go project's database and dry-run copy), live: new ones appear on refetch.
+export const useDatabases = (engine: string) =>
+  useQuery({ queryKey: ['databases', engine], queryFn: () => api<string[]>(`/api/databases?app=${encodeURIComponent(engine)}`) });
 
 // One project, with that project's header user filter applied to its "today" numbers.
 // `notFound` short-circuits: once the users call has 404'd we know the project is missing,

@@ -3,11 +3,12 @@ import { Check, Pencil, Plus, Settings as Gear } from 'lucide-react';
 import { useState } from 'react';
 import { Link, useLocation, useNavigate, useParams } from 'react-router';
 import { type Project, useProject } from '../projects';
-import { blankSettings, fieldsFor, OPTIONAL_KEYS, type SettingKey, type Settings, validateSettings } from '../settingsForm';
+import { AUTO_KEYS, blankSettings, fieldsFor, OPTIONAL_KEYS, type SettingKey, type Settings, validateSettings } from '../settingsForm';
 import { btn, card, CardHeader, Crumbs, projectTrail, dbApi, Notice, MissingProject } from '../shared';
 import { projectUrl } from '@/apps';
 
-// fields: the settings this project's engine variant has (no_delta: base_price, with_delta: delta_max_age).
+// fields: the settings this project's engine has (no_delta: base_price, with_delta: delta_max_age; a single-variant
+// engine's db_configs adds its sl/tp and, No Delta Paper, its SuperTrend and session settings).
 // Field pairs drawn side by side in one grid cell, half width each, at the first key's place.
 const PAIRS: Partial<Record<SettingKey, SettingKey>> = {
   exch_seg: 'index_exch_seg',
@@ -16,6 +17,10 @@ const PAIRS: Partial<Record<SettingKey, SettingKey>> = {
   ce_delta_min: 'ce_delta_max',
   pe_delta_min: 'pe_delta_max',
   index_symbol: 'index_token',
+  sl: 'tp',
+  min_factor: 'max_factor',
+  start_trading_hour: 'start_trading_min',
+  end_trading_hour: 'end_trading_min',
 };
 
 type Resp = { is_empty: boolean; data: (Settings & { db_config_id: number }) | null; fields: SettingKey[] };
@@ -57,7 +62,7 @@ function SettingsForm({ p, resp, editing }: { p: Project; resp: Resp; editing: b
     mutationFn: () =>
       dbApi(p.db, resp.is_empty ? '/api/create_settings' : '/api/update_settings', {
         method: resp.is_empty ? 'POST' : 'PUT',
-        body: JSON.stringify(Object.fromEntries(fields.map((f) => [f.key, form[f.key].trim()]))),
+        body: JSON.stringify(Object.fromEntries(fields.filter((f) => !AUTO_KEYS.includes(f.key)).map((f) => [f.key, form[f.key].trim()]))),
       }),
     onSuccess: async () => {
       // Project name shows in the header, breadcrumbs and dashboard: refresh those too.
@@ -96,21 +101,22 @@ function SettingsForm({ p, resp, editing }: { p: Project; resp: Resp; editing: b
   // One labelled input; PAIRS put two of these in one grid cell.
   const one = (f: (typeof fields)[number]) => {
     const err = editing && submitted ? errors[f.key] : undefined;
-    const cls = !editing
+    const cls = !editing || AUTO_KEYS.includes(f.key)
       ? `${base} border-zinc-200 bg-zinc-50 text-zinc-600`
       : `${base} bg-white ${err ? 'border-red-400 focus:ring-red-100' : 'border-zinc-300 focus:ring-blue-100'}`;
     const aria = { 'aria-invalid': !!err, 'aria-describedby': err ? `${f.key}-err` : undefined };
     const set = (v: string) => setForm((s) => ({ ...s, [f.key]: v }));
     const optional = OPTIONAL_KEYS.includes(f.key); // nullable column: blank is allowed
+    const auto = AUTO_KEYS.includes(f.key); // engine-managed (expiry): read-only even while editing
     // Always offer the saved value, even if it's not in the known list.
     const opts = 'options' in f ? [...new Set([...(form[f.key] ? [form[f.key]] : []), ...f.options])] : null;
     return (
       <div key={f.key}>
         <label htmlFor={f.key} className="mb-1.5 block text-sm font-medium text-zinc-700">
-          {!optional && <span className="text-red-500">* </span>}
+          {!optional && !auto && <span className="text-red-500">* </span>}
           {f.label}
         </label>
-        {editing && opts ? (
+        {editing && opts && !auto ? (
           <select id={f.key} value={form[f.key]} onChange={(e) => set(e.target.value)} className={cls} {...aria}>
             <option value="" disabled={!optional}>
               {f.placeholder}
@@ -122,7 +128,9 @@ function SettingsForm({ p, resp, editing }: { p: Project; resp: Resp; editing: b
         ) : (
           <input
             id={f.key}
-            readOnly={!editing}
+            readOnly={!editing || auto}
+            aria-readonly={!editing || auto}
+            title={auto ? 'Set automatically each day from the exchange\'s listed expiries (by Expiry Cycle)' : undefined}
             value={form[f.key]}
             placeholder={f.placeholder}
             inputMode={'numeric' in f ? 'decimal' : undefined}

@@ -3,8 +3,8 @@ import { AlertCircle, Building2, Check, IndianRupee, Loader, RefreshCw, Save, Tr
 import type { ReactNode } from 'react';
 import { Link, useLocation, useParams } from 'react-router';
 import { btn, card, Crumbs, Notice } from '@/shared';
-import { bapi, inr, json, useApp } from '../../api';
-import { type Balance, brokerById, PORTAL_USER, type Profile, type ResultsState } from '../../brokers';
+import { bapi, inr, json, useApp } from './api';
+import { type Balance, brokerById, PORTAL_USER, type Profile, type ResultsState } from './brokers';
 
 // Profile + balance of a logged-in broker session (live), or of a saved snapshot (as stored).
 export function Component() {

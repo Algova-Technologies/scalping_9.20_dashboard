@@ -1,5 +1,5 @@
 // All backend calls go through here.
-const BASE = (import.meta.env?.VITE_API_BASE_URL ?? 'https://api.ghanish.in').replace(/\/+(docs)?\/?$/, '');
+const BASE = (import.meta.env?.VITE_API_BASE_URL ?? 'https://172.105.52.70').replace(/\/+(docs)?\/?$/, '');
 
 // Every screen of every project refreshes its data this often (main.tsx sets it as the default).
 export const LIVE_MS = 1000;

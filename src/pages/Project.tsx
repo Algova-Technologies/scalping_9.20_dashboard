@@ -48,14 +48,22 @@ export function Component() {
   const best = traded[0];
   const worst = traded[traded.length - 1];
   const day = sessionLabel(p.session_date);
-  const tiles = [
-    { label: 'Variants', value: String(vs.length), cls: 'bg-blue-50 text-blue-700' },
-    { label: 'Open Positions', value: String(p.open_positions), cls: 'bg-indigo-50 text-indigo-700' },
-    { label: `${day} PnL · ${fmt(p.today_pct)}`, value: inr(p.today_pnl), cls: `bg-orange-50 ${tone(p.today_pnl)}` },
-    { label: `Profitable ${day}`, value: `${vs.filter((v) => v.today_pnl > 0).length} / ${vs.length}`, cls: 'bg-fuchsia-50 text-fuchsia-700' },
-    { label: best ? `Best ${day} · ${best.name}` : `Best ${day}`, value: best ? fmt(best.today_pct) : '—', cls: `bg-emerald-50 ${tone(best?.today_pct ?? 0)}` },
-    { label: worst ? `Worst ${day} · ${worst.name}` : `Worst ${day}`, value: worst ? fmt(worst.today_pct) : '—', cls: `bg-red-50 ${tone(worst?.today_pct ?? 0)}` },
-  ];
+  const tiles = p.single
+    ? // one fixed variant: no counts or best/worst to rank, so the overview says what it trades instead
+      [
+        { label: 'Variant (points)', value: vs[0].name, cls: 'bg-blue-50 text-blue-700' },
+        { label: 'Open Positions', value: String(p.open_positions), cls: 'bg-indigo-50 text-indigo-700' },
+        { label: `${day} PnL · ${fmt(p.today_pct)}`, value: inr(p.today_pnl), cls: `bg-orange-50 ${tone(p.today_pnl)}` },
+        { label: `${day} trades`, value: String(vs[0].today_trades), cls: 'bg-fuchsia-50 text-fuchsia-700' },
+      ]
+    : [
+        { label: 'Variants', value: String(vs.length), cls: 'bg-blue-50 text-blue-700' },
+        { label: 'Open Positions', value: String(p.open_positions), cls: 'bg-indigo-50 text-indigo-700' },
+        { label: `${day} PnL · ${fmt(p.today_pct)}`, value: inr(p.today_pnl), cls: `bg-orange-50 ${tone(p.today_pnl)}` },
+        { label: `Profitable ${day}`, value: `${vs.filter((v) => v.today_pnl > 0).length} / ${vs.length}`, cls: 'bg-fuchsia-50 text-fuchsia-700' },
+        { label: best ? `Best ${day} · ${best.name}` : `Best ${day}`, value: best ? fmt(best.today_pct) : '—', cls: `bg-emerald-50 ${tone(best?.today_pct ?? 0)}` },
+        { label: worst ? `Worst ${day} · ${worst.name}` : `Worst ${day}`, value: worst ? fmt(worst.today_pct) : '—', cls: `bg-red-50 ${tone(worst?.today_pct ?? 0)}` },
+      ];
 
   // md+: the page fills exactly the space between header and footer, no vertical scroll.
   // Variant rows share the leftover height equally but never shrink below their content.
@@ -64,7 +72,7 @@ export function Component() {
       {crumbs}
       <section className="rounded-xl border border-zinc-200 bg-white p-4 shadow-sm">
         <h2 className="text-sm font-semibold">{p.name} · Overview</h2>
-        <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-6">
+        <div className={`mt-3 grid grid-cols-2 gap-2 ${p.single ? 'md:grid-cols-4' : 'sm:grid-cols-3 md:grid-cols-6'}`}>
           {tiles.map((t) => (
             <div key={t.label} className={`min-w-0 rounded-lg px-3 py-2 text-center ${t.cls}`}>
               <div className="text-base font-bold tabular-nums">{t.value}</div>
@@ -76,7 +84,9 @@ export function Component() {
         </div>
       </section>
 
-      <div className="mt-3 grid gap-3 md:flex-1 md:auto-rows-[minmax(min-content,1fr)] md:grid-cols-2 xl:grid-cols-3">
+      {/* Rows share the leftover height only when there are enough cards to fill it (2+ rows); fewer cards keep
+          their natural height instead of stretching into a tall, mostly empty card. */}
+      <div className={`mt-3 grid gap-3 md:grid-cols-2 xl:grid-cols-3 ${vs.length > 3 ? 'md:flex-1 md:auto-rows-[minmax(min-content,1fr)]' : 'content-start'}`}>
         {vs.map((v) => (
           <VariantCard
             key={v.id}

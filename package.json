@@ -7,7 +7,7 @@
     "build": "tsc && vite build",
     "preview": "vite preview",
     "lint": "oxlint src",
-    "test": "rolldown src/api.test.ts --platform node -o node_modules/.cache/api.test.mjs --format esm && node node_modules/.cache/api.test.mjs && rolldown src/userForm.test.ts --platform node -o node_modules/.cache/userForm.test.mjs --format esm && node node_modules/.cache/userForm.test.mjs && rolldown src/settingsForm.test.ts --platform node -o node_modules/.cache/settingsForm.test.mjs --format esm && node node_modules/.cache/settingsForm.test.mjs && rolldown src/variantForm.test.ts --platform node -o node_modules/.cache/variantForm.test.mjs --format esm && node node_modules/.cache/variantForm.test.mjs && rolldown src/logs.test.ts --platform node -o node_modules/.cache/logs.test.mjs --format esm && node node_modules/.cache/logs.test.mjs && rolldown src/metrics.test.ts --platform node -o node_modules/.cache/metrics.test.mjs --format esm && node node_modules/.cache/metrics.test.mjs && rolldown src/apps.test.ts --platform node -o node_modules/.cache/apps.test.mjs --format esm && node node_modules/.cache/apps.test.mjs && rolldown src/apps/strategy-paper/userForm.test.ts --platform node -o node_modules/.cache/paper-userForm.test.mjs --format esm && node node_modules/.cache/paper-userForm.test.mjs"
+    "test": "rolldown src/api.test.ts --platform node -o node_modules/.cache/api.test.mjs --format esm && node node_modules/.cache/api.test.mjs && rolldown src/userForm.test.ts --platform node -o node_modules/.cache/userForm.test.mjs --format esm && node node_modules/.cache/userForm.test.mjs && rolldown src/settingsForm.test.ts --platform node -o node_modules/.cache/settingsForm.test.mjs --format esm && node node_modules/.cache/settingsForm.test.mjs && rolldown src/variantForm.test.ts --platform node -o node_modules/.cache/variantForm.test.mjs --format esm && node node_modules/.cache/variantForm.test.mjs && rolldown src/logs.test.ts --platform node -o node_modules/.cache/logs.test.mjs --format esm && node node_modules/.cache/logs.test.mjs && rolldown src/metrics.test.ts --platform node -o node_modules/.cache/metrics.test.mjs --format esm && node node_modules/.cache/metrics.test.mjs && rolldown src/apps.test.ts --platform node -o node_modules/.cache/apps.test.mjs --format esm && node node_modules/.cache/apps.test.mjs"
   },
   "dependencies": {
     "@tanstack/react-query": "5.107.1",
@@ -24,6 +24,6 @@
     "oxlint": "1.93.0",
     "tailwindcss": "4.3.5",
     "typescript": "7.0.2",
-    "vite": "8.3.8"
+    "vite": "^8.3.8"
   }
 }

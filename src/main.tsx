@@ -3,10 +3,8 @@ import { createRoot } from 'react-dom/client';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { createBrowserRouter, Navigate, redirect, RouterProvider } from 'react-router';
 import { isClientError, LIVE_MS } from './api';
-import { apps, noDeltaLive, noDeltaPaper, scalpingApps, scalpingFor, withDeltaLive, withDeltaPaper } from './apps';
+import { apps, scalpingApps, scalpingFor } from './apps';
 import Layout from './Layout';
-import { routes as noDeltaRoutes } from './apps/strategy-ui/routes';
-import { routes as withDeltaRoutes } from './apps/strategy-paper/routes';
 import './index.css';
 
 const queryClient = new QueryClient({
@@ -45,7 +43,7 @@ const router = createBrowserRouter([
       { path: 'projects/*', loader: oldLink, Component: () => null },
       { path: 'scalping-9-20-multi-variant-paper/*', loader: oldLink, Component: () => null },
       ...scalpingApps.map((app) => ({
-        path: app.root.slice(1), // /scalping-9-20-no-delta-multi-variant/... , /scalping-9-20-with-delta-multi-variant/...
+        path: app.root.slice(1), // every app (apps.ts): /scalping-9-20-no-delta-multi-variant/..., /scalping-9-20-no-delta-paper/..., ...
         children: [
           { index: true, lazy: () => import('./pages/Dashboard') },
           { path: 'projects/:id', lazy: () => import('./pages/Project') },
@@ -63,12 +61,17 @@ const router = createBrowserRouter([
           { path: 'projects/:id/manage-variants/:variantId/edit', lazy: () => import('./pages/manage-variants/Form') },
           { path: 'projects/:id/logs/:scope', lazy: () => import('./pages/Logs') },
           { path: 'projects/:id/compare', lazy: () => import('./pages/Compare') },
+          ...(app.broker
+            ? [
+                { path: 'broker', lazy: () => import('./broker/Select') },
+                { path: 'broker/:broker/login', lazy: () => import('./broker/Login') },
+                { path: 'broker/:broker/results', lazy: () => import('./broker/Results') },
+              ]
+            : []),
+          // Older single-variant screens (/users, /pnl/weekly, /logs/...): their dashboard now lists the project.
+          { path: '*', element: <Navigate replace to={app.root} /> },
         ],
       })),
-      ...noDeltaRoutes(noDeltaPaper), // /scalping-9-20-no-delta-paper/...   (src/apps/strategy-ui)
-      ...noDeltaRoutes(noDeltaLive), // /scalping-9-20-no-delta-live/...
-      ...withDeltaRoutes(withDeltaPaper), // /scalping-9-20-with-delta-paper/... (src/apps/strategy-paper)
-      ...withDeltaRoutes(withDeltaLive), // /scalping-9-20-with-delta-live/...
     ],
   },
 ]);

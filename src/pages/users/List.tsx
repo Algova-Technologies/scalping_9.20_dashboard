@@ -16,6 +16,8 @@ export function Component() {
   const [confirming, setConfirming] = useState<User | null>(null);
 
   const refresh = () => qc.invalidateQueries({ queryKey: ['users', p?.db] });
+  // Only the flags this project's engine has (a single-variant engine may lack some: they come back null).
+  const shown = statuses.filter((s) => !data?.length || data.some((u) => u[s.key] !== null));
   const toggle = useMutation({
     mutationFn: (v: { user_id: number; status_type: Status; value: number }) =>
       dbApi(p!.db, '/api/toggle_user_status', { method: 'PUT', body: JSON.stringify(v) }),
@@ -60,7 +62,7 @@ export function Component() {
                   <th className="px-3 py-3">Name</th>
                   <th className="px-3 py-3">Mobile</th>
                   <th className="px-3 py-3">Broker</th>
-                  {statuses.map((s) => (
+                  {shown.map((s) => (
                     <th key={s.key} className="px-3 py-3 whitespace-nowrap">
                       {s.head}
                     </th>
@@ -80,7 +82,7 @@ export function Component() {
                     </td>
                     <td className="px-3 py-3 tabular-nums">{u.mobile}</td>
                     <td className="px-3 py-3">{brokerLabel(u.broker)}</td>
-                    {statuses.map((s) => (
+                    {shown.map((s) => (
                       <td key={s.key} className="px-3 py-3 text-center">
                         <Toggle
                           on={!!u[s.key]}

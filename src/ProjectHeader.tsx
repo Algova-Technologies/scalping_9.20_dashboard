@@ -55,12 +55,17 @@ export default function ProjectHeader({ p }: { p: Project }) {
         <Link to={`${projectUrl(p.id)}/settings`} title="Settings" aria-label="Settings" className={iconBtn}>
           <Settings className="size-4" />
         </Link>
-        <Link to={`${projectUrl(p.id)}/compare`} title="Compare variants" aria-label="Compare variants" className={iconBtn}>
-          <GitCompareArrows className="size-4" />
-        </Link>
-        <Link to={`${projectUrl(p.id)}/manage-variants`} title="Manage variants" aria-label="Manage variants" className={iconBtn}>
-          <Layers className="size-4" />
-        </Link>
+        {/* A single-variant engine trades one SL/TP (in Settings): nothing to compare or manage. */}
+        {!p.single && (
+          <>
+            <Link to={`${projectUrl(p.id)}/compare`} title="Compare variants" aria-label="Compare variants" className={iconBtn}>
+              <GitCompareArrows className="size-4" />
+            </Link>
+            <Link to={`${projectUrl(p.id)}/manage-variants`} title="Manage variants" aria-label="Manage variants" className={iconBtn}>
+              <Layers className="size-4" />
+            </Link>
+          </>
+        )}
       </div>
     </>
   );

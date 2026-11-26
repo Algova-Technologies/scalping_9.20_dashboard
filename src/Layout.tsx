@@ -1,12 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
-import { Activity } from 'lucide-react';
-import { NavLink, Outlet, useLocation, useMatch, useNavigate } from 'react-router';
+import { Activity, Building2 } from 'lucide-react';
+import { Link, NavLink, Outlet, useLocation, useMatch, useNavigate } from 'react-router';
 import { api } from './api';
 import { appOf, apps } from './apps';
-import NoDeltaHeader from './apps/strategy-ui/Header';
-import { AppProvider as NoDeltaProvider } from './apps/strategy-ui/api';
-import WithDeltaHeader from './apps/strategy-paper/Header';
-import { AppProvider as WithDeltaProvider } from './apps/strategy-paper/api';
 import Clock from './Clock';
 import ProjectHeader from './ProjectHeader';
 import ThemeToggle from './ThemeToggle';
@@ -31,10 +27,10 @@ export default function Layout() {
 
   return (
     <div className="flex min-h-screen flex-col">
-      {/* xl+: one line, three columns: left | clock | right. Equal 1fr sides keep the clock centred;
+      {/* 1800px+: one line, three columns: left | clock | right (six apps + project controls need that width). Equal 1fr sides keep the clock centred;
           if the controls need more room their column grows (clock nudges left) rather than overlapping.
           Smaller screens: everything wraps in a row. */}
-      <header className="flex min-h-14 flex-wrap items-center gap-x-6 gap-y-2 border-b border-zinc-200 bg-white px-6 py-2 xl:grid xl:grid-cols-[1fr_auto_1fr]">
+      <header className="flex min-h-14 flex-wrap items-center gap-x-6 gap-y-2 border-b border-zinc-200 bg-white px-4 py-2 sm:px-6 min-[1800px]:grid min-[1800px]:grid-cols-[1fr_auto_1fr]">
         <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
         <div className="flex items-center gap-2 font-semibold">
           <Activity className="size-5" /> Algova
@@ -51,7 +47,8 @@ export default function Layout() {
           </NavLink>
         </nav>
         {/* Project switcher: each app owns the routes under its root (apps.ts). */}
-        <div role="radiogroup" aria-label="Project" className="flex max-w-full items-center gap-0.5 rounded-lg border border-zinc-200 bg-zinc-50 p-0.5 sm:gap-1 sm:p-1">
+        {/* Six apps: they wrap onto more lines rather than run off a narrow screen. */}
+        <div role="radiogroup" aria-label="Project" className="flex max-w-full flex-wrap items-center gap-0.5 rounded-lg border border-zinc-200 bg-zinc-50 p-0.5 sm:gap-1 sm:p-1">
           {apps.map((a) => (
             <button
               key={a.id}
@@ -70,9 +67,16 @@ export default function Layout() {
         <Clock />
         <div className="ml-auto flex items-center justify-end gap-2">
           {project && <ProjectHeader p={project} />}
-          {/* The header sits outside the app's routes, so it gets the app from here. */}
-          {app.kind === 'no-delta' && <NoDeltaProvider value={app}><NoDeltaHeader /></NoDeltaProvider>}
-          {app.kind === 'with-delta' && <WithDeltaProvider value={app}><WithDeltaHeader /></WithDeltaProvider>}
+          {app.broker && (
+            <Link
+              to={`${app.root}/broker`}
+              title="Broker portal"
+              aria-label="Broker portal"
+              className="inline-flex size-8 items-center justify-center rounded-md border border-zinc-200 text-zinc-600 hover:border-zinc-400 hover:text-zinc-900"
+            >
+              <Building2 className="size-4" />
+            </Link>
+          )}
           <ThemeToggle />
         </div>
       </header>

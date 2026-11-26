@@ -22,9 +22,10 @@ export type User = {
   api_key: string;
   qr_totp_token: string;
   buying_power: string | null;
-  is_active: number;
-  account_status: number;
-  trade_status: number;
+  // null: this project's engine has no such flag (e.g. the With Delta engines have no is_active); screens hide it
+  is_active: number | null;
+  account_status: number | null;
+  trade_status: number | null;
 };
 export type Status = 'is_active' | 'account_status' | 'trade_status';
 
